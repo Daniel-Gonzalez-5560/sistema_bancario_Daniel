@@ -12,7 +12,7 @@ from src.controllers.sesion import Sesion
 
 # Temporal: subclase del DAO con lo que el panel necesita hasta que
 # BE-07/08/09 se reescriban (ver src/dao_personal.py).
-_dao = DAOPersonal("sistema_bancario.db")
+_dao = DAOPersonal()
 
 
 def _es_personal():

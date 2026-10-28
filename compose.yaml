@@ -1,0 +1,14 @@
+services:
+  app:
+    build: .
+    image: sistema-bancario:local
+    ports:
+      - "8550:8550"
+    environment:
+      BANK_DB_PATH: /data/sistema_bancario.db
+    volumes:
+      - bank_data:/data
+    restart: unless-stopped
+
+volumes:
+  bank_data:

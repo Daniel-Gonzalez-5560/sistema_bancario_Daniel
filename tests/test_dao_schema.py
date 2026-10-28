@@ -35,6 +35,17 @@ def test_dao_tiene_metodos_para_persona_y_catalogos():
     dao.cerrar_conexion()
 
 
+def test_dao_usa_la_ruta_configurada_por_entorno(tmp_path, monkeypatch):
+    database_path = tmp_path / "data" / "banco.db"
+    monkeypatch.setenv("BANK_DB_PATH", str(database_path))
+
+    dao = DAO()
+
+    assert dao.engine.url.database == str(database_path.resolve())
+    assert database_path.exists()
+    dao.cerrar_conexion()
+
+
 def test_guardar_transaccion_acepta_tipo_real_del_catalogo():
     dao = DAO(db_path=":memory:")
 

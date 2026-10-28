@@ -11,7 +11,7 @@ from src.controllers.navegacion import crear_bottom_nav
 from src.controllers.sesion import Sesion
 
 # Temporal hasta BE-10/11 de Daniel (ver src/dao_cliente.py).
-_dao = DAOCliente("sistema_bancario.db")
+_dao = DAOCliente()
 
 BG_FONDO = "#07040d"
 BG_TARJETA = "#0f081d"

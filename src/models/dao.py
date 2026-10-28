@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from typing import List, Optional, Tuple
 
@@ -25,9 +26,15 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 class DAO:
     """Data Access Object para la persistencia bancaria con SQLAlchemy y SQLite."""
 
-    def __init__(self, db_path: str = "sistema_bancario.db"):
+    def __init__(self, db_path: str | None = None):
+        db_path = db_path or os.getenv("BANK_DB_PATH", "sistema_bancario.db")
         self.db_path = db_path
-        url = "sqlite://" if db_path == ":memory:" else f"sqlite:///{Path(db_path).resolve()}"
+        if db_path == ":memory:":
+            url = "sqlite://"
+        else:
+            database_file = Path(db_path).expanduser().resolve()
+            database_file.parent.mkdir(parents=True, exist_ok=True)
+            url = f"sqlite:///{database_file}"
         self.engine = create_engine(url, future=True)
         event.listen(self.engine, "connect", self._enable_foreign_keys)
         self.session_factory = sessionmaker(bind=self.engine, expire_on_commit=False)

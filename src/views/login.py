@@ -10,7 +10,7 @@ from src.controllers.autenticacion import Autenticacion
 from src.models.dao import DAO
 from src.controllers.sesion import Sesion
 
-_dao = DAO("sistema_bancario.db")
+_dao = DAO()
 _autenticacion = Autenticacion(_dao)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

@@ -69,6 +69,27 @@ pytest --cov=src -v
 Bash
 # Interfaz gráfica principal (Flet)
 python main.py
+
+## 🐳 Ejecutar con Docker
+
+Requiere Docker Desktop con el motor Linux activo. Desde la raíz del proyecto:
+
+```bash
+docker compose up --build
+```
+
+Abrir [http://localhost:8550](http://localhost:8550). Para detener la aplicación,
+usar `Ctrl+C`; para iniciarla en segundo plano, ejecutar
+`docker compose up --build -d` y detenerla con `docker compose down`.
+
+La imagen incluye una copia de `sistema_bancario.db`. Al primer inicio, esa copia
+se carga en el volumen persistente `bank_data`; los siguientes inicios conservan
+los datos del volumen y no vuelven a sobrescribirlos. Para eliminar también la
+base persistente y comenzar de cero, ejecutar `docker compose down -v`.
+
+La ruta de la base se puede cambiar mediante `BANK_DB_PATH`. No usar una base con
+datos sensibles reales en una imagen compartida o publicada.
+
 ⚙️ Integración Continua (CI/CD)
 El repositorio cuenta con un workflow de GitHub Actions configurado en .github/workflows/ci.yml. En cada push a cualquier rama o apertura de Pull Request, el servidor de CI:
 1.	Configura el entorno Python aislado.

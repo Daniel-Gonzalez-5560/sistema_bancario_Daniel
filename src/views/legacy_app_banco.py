@@ -12,7 +12,7 @@ class SaldoInsuficienteError(Exception): pass
 class LimiteExcedidoError(Exception): pass 
 
 # ====== INICIALIZAR DAO ======
-dao = DAO("sistema_bancario.db")
+dao = DAO()
 
 # --- Función Principal (main)---
 def main(page: ft.Page):

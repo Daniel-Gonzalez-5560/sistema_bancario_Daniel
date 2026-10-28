@@ -8,7 +8,7 @@ class PersonalController:
     """Controlador mediador entre el DAOPersonal y la Vista de Personal."""
 
     def __init__(self, dao: DAOPersonal = None, view=None):
-        self.dao = dao or DAOPersonal("sistema_bancario.db")
+        self.dao = dao or DAOPersonal()
         self.view = view  # Referencia a la vista
 
     def validar_acceso(self) -> bool:

@@ -9,7 +9,7 @@ from src.controllers.navegacion import crear_bottom_nav, ir_a
 from src.controllers.sesion import Sesion
 
 # Temporal hasta BE-10/11 de Daniel (ver src/dao_cliente.py).
-_dao = DAOCliente("sistema_bancario.db")
+_dao = DAOCliente()
 
 # Paleta de colores
 BG_FONDO = "#07040d"
