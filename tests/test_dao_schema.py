@@ -1,5 +1,5 @@
-from src.cliente import Cliente
-from src.dao import DAO
+from src.models.cliente import Cliente
+from src.models.dao import DAO
 from src.models import Base
 
 

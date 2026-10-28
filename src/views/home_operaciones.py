@@ -6,9 +6,9 @@ import flet as ft
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.dao_cliente import DAOCliente
-from src.navegacion import crear_bottom_nav
-from src.sesion import Sesion
+from src.models.dao_cliente import DAOCliente
+from src.controllers.navegacion import crear_bottom_nav
+from src.controllers.sesion import Sesion
 
 # Temporal hasta BE-10/11 de Daniel (ver src/dao_cliente.py).
 _dao = DAOCliente("sistema_bancario.db")

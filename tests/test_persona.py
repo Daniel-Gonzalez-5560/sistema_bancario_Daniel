@@ -1,6 +1,6 @@
-from src.cliente import Cliente
-from src.dao import DAO
-from src.persona import Persona
+from src.models.cliente import Cliente
+from src.models.dao import DAO
+from src.models.persona import Persona
 
 
 def test_cliente_hereda_de_persona():

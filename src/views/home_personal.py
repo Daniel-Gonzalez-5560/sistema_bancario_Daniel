@@ -1,7 +1,7 @@
 # src/views/home_personal.py
 import flet as ft
-from src.navegacion import ir_a
-from src.sesion import Sesion
+from src.controllers.navegacion import ir_a
+from src.controllers.sesion import Sesion
 from src.controllers.personal_controllers import PersonalController
 
 # Constantes de diseño - Capital Bank Desktop Neon
@@ -220,7 +220,7 @@ class HomePersonalView:
         return badges
 
     def redirigir_login(self):
-        from src.login import render_login
+        from src.views.login import render_login
         ir_a(self.page, render_login)
 
     def navegar_a(self, vista_destino):

@@ -2,12 +2,12 @@ from datetime import datetime
 
 import pytest
 
-from src.autenticacion import Autenticacion
-from src.cliente import Cliente
-from src.cuenta import Cuenta
-from src.dao import DAO
-from src.empleado import Empleado
-from src.persona import Persona
+from src.controllers.autenticacion import Autenticacion
+from src.models.cliente import Cliente
+from src.models.cuenta import Cuenta
+from src.models.dao import DAO
+from src.models.empleado import Empleado
+from src.models.persona import Persona
 
 
 @pytest.fixture

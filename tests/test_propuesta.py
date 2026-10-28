@@ -1,8 +1,8 @@
 import pytest
-from src.cliente import Cliente
-from src.cuenta import Cuenta, SaldoInsuficienteError
-from src.cuenta_ahorro import CuentaAhorro
-from src.dao import DAO
+from src.models.cliente import Cliente
+from src.models.cuenta import Cuenta, SaldoInsuficienteError
+from src.models.cuenta_ahorro import CuentaAhorro
+from src.models.dao import DAO
 
 def test_infraestructura_tests_activa():
     """Verifica que la suite de pruebas y pytest están funcionando correctamente."""

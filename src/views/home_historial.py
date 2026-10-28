@@ -2,11 +2,11 @@ import os
 import sys
 import flet as ft
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.dao_cliente import DAOCliente
-from src.navegacion import crear_bottom_nav, ir_a
-from src.sesion import Sesion
+from src.models.dao_cliente import DAOCliente
+from src.controllers.navegacion import crear_bottom_nav, ir_a
+from src.controllers.sesion import Sesion
 
 # Temporal hasta BE-10/11 de Daniel (ver src/dao_cliente.py).
 _dao = DAOCliente("sistema_bancario.db")
@@ -39,7 +39,7 @@ def render_home_historial(page: ft.Page):
 
     usuario = Sesion.actual()
     if not usuario:
-        from src.login import render_login
+        from src.views.login import render_login
         ir_a(page, render_login)
         return
     nombre = usuario.get("nombre", "Cliente")
@@ -75,7 +75,7 @@ def render_home_historial(page: ft.Page):
 
     def _cerrar_sesion(e):
         Sesion.cerrar()
-        from src.login import render_login
+        from src.views.login import render_login
         ir_a(page, render_login)
 
     def _actualizar_tabla():

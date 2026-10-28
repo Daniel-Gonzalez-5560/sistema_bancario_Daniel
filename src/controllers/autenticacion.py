@@ -1,8 +1,8 @@
 from sqlalchemy import select
 
-from src.cliente import Cliente
-from src.cuenta import Cuenta
-from src.dao import DAO
+from src.models.cliente import Cliente
+from src.models.cuenta import Cuenta
+from src.models.dao import DAO
 from src.models import EmpleadoModel
 
 

@@ -1,6 +1,6 @@
 """DAO temporal del panel de personal (integración).
 
-Hereda del DAO definitivo de Cristian (`src.dao.DAO`) y agrega solo lo
+Hereda del DAO definitivo de Cristian (`src.models.dao.DAO`) y agrega solo lo
 que la pantalla de gestión de clientes necesita y el DAO base aún no tiene:
 
 - `obtener_todos_clientes()` (lista para el panel)
@@ -16,7 +16,7 @@ from typing import List, Tuple
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 
-from src.dao import DAO, pwd_context
+from src.models.dao import DAO, pwd_context
 from src.models import ClienteModel, CuentaModel, PersonaModel
 
 

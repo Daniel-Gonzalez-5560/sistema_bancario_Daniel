@@ -6,7 +6,7 @@ from sqlalchemy import create_engine, delete, event, select, update
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy.orm import sessionmaker
 
-from src.cliente import Cliente
+from src.models.cliente import Cliente
 from src.models import (
     Base,
     ClienteModel,
@@ -17,7 +17,7 @@ from src.models import (
     TipoTransaccionModel,
     TransaccionModel,
 )
-from src.persona import Persona
+from src.models.persona import Persona
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

@@ -1,7 +1,7 @@
 # src/controllers/personal_controller.py
-from src.dao_personal import DAOPersonal
-from src.sesion import Sesion
-from src.navegacion import ir_a
+from src.models.dao_personal import DAOPersonal
+from src.controllers.sesion import Sesion
+from src.controllers.navegacion import ir_a
 
 
 class PersonalController:
@@ -44,12 +44,12 @@ class PersonalController:
 
     def registrar_nuevo_cliente(self, e):
         """Orquesta la navegación hacia el formulario de alta."""
-        from src.home_crear_cliente import render_gestion_cliente
+        from src.views.home_crear_cliente import render_gestion_cliente
         self.view.navegar_a(render_gestion_cliente)
 
     def abrir_detalle_cliente(self, dni: str):
         """Orquesta la apertura del detalle/edición de un cliente."""
-        from src.home_crear_cliente import render_gestion_cliente
+        from src.views.home_crear_cliente import render_gestion_cliente
         self.view.navegar_a(lambda p: render_gestion_cliente(p, dni=dni))
 
     def cerrar_sesion(self, e):

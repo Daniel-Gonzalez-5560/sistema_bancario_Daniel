@@ -1,6 +1,6 @@
 """DAO temporal de operaciones del cliente (integración).
 
-Hereda del DAO definitivo de Cristian (`src.dao.DAO`) y agrega solo las
+Hereda del DAO definitivo de Cristian (`src.models.dao.DAO`) y agrega solo las
 operaciones compuestas que home_operaciones/home_historial necesitan y el
 DAO base aún no tiene:
 
@@ -13,9 +13,9 @@ Cuando BE-10/11 se entreguen (Daniel) y el DAO base incorpore estas
 operaciones, este archivo se elimina y las vistas vuelven a usar `DAO`.
 """
 
-from src.cuenta import SaldoInsuficienteError
-from src.dao import DAO
-from src.transaccion import Transaccion
+from src.models.cuenta import SaldoInsuficienteError
+from src.models.dao import DAO
+from src.models.transaccion import Transaccion
 
 
 class DAOCliente(DAO):

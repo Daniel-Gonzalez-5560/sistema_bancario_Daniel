@@ -4,16 +4,16 @@ import sys
 
 import flet as ft
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from src.autenticacion import Autenticacion
-from src.dao import DAO
-from src.sesion import Sesion
+from src.controllers.autenticacion import Autenticacion
+from src.models.dao import DAO
+from src.controllers.sesion import Sesion
 
 _dao = DAO("sistema_bancario.db")
 _autenticacion = Autenticacion(_dao)
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 LOGO_PATH = os.path.join(BASE_DIR, "img", "logo_clean.png")
 if os.path.exists(LOGO_PATH):
     with open(LOGO_PATH, "rb") as f:
@@ -77,9 +77,9 @@ def render_login(page: ft.Page):
         Sesion.iniciar(usuario)
         mostrar_mensaje(f"Sesión iniciada como {usuario['rol']}", es_error=False)
 
-        from src.home_cliente import render_home_cliente
-        from src.home_personal import render_home_personal
-        from src.navegacion import ir_a
+        from src.views.home_cliente import render_home_cliente
+        from src.views.home_personal import render_home_personal
+        from src.controllers.navegacion import ir_a
 
         if usuario["rol"] == "cliente":
             ir_a(page, render_home_cliente)

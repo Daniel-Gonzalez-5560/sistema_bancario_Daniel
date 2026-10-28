@@ -5,14 +5,31 @@ import flet as ft
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.cliente import Cliente
-from src.dao_personal import DAOPersonal
-from src.navegacion import ir_a
-from src.sesion import Sesion
+from src.models.cliente import Cliente
+from src.models.dao_personal import DAOPersonal
+from src.controllers.navegacion import ir_a
+from src.controllers.sesion import Sesion
 
 # Temporal: subclase del DAO con lo que el panel necesita hasta que
 # BE-07/08/09 se reescriban (ver src/dao_personal.py).
 _dao = DAOPersonal("sistema_bancario.db")
+
+
+def _es_personal():
+    usuario = Sesion.actual()
+    return usuario is not None and usuario.get("rol") == "personal"
+
+
+def _ir_login(page: ft.Page):
+    from src.views.login import render_login
+
+    ir_a(page, render_login)
+
+
+def _aviso(page: ft.Page, mensaje: str, ok: bool = True):
+    color = ft.Colors.GREEN_700 if ok else ft.Colors.RED_700
+    page.overlay.append(ft.SnackBar(ft.Text(mensaje), open=True, bgcolor=color))
+    page.update()
 
 
 def _resolver_tipo(nombre_tipo):
@@ -29,10 +46,6 @@ def _resolver_tipo(nombre_tipo):
 
 def render_gestion_cliente(page: ft.Page, dni=None):
     """Crear/editar cliente con sus cuentas. Sin diseño: controles por defecto."""
-    # Imports diferidos: home_personal importa este módulo a nivel superior,
-    # así se evita el ciclo home_personal <-> home_crear_cliente.
-    from src.home_personal import _aviso, _es_personal, _ir_login
-
     page.title = "Capital Bank - Gestión cliente"
     page.bgcolor = ft.Colors.WHITE
     page.scroll = ft.ScrollMode.ADAPTIVE
@@ -45,7 +58,7 @@ def render_gestion_cliente(page: ft.Page, dni=None):
     datos = None if es_nuevo else _dao.obtener_cliente_por_dni(dni)
     if not es_nuevo and datos is None:
         _aviso(page, "No existe un cliente con ese DNI.", ok=False)
-        from src.home_personal import render_home_personal
+        from src.views.home_personal import render_home_personal
         ir_a(page, render_home_personal)
         return
 
@@ -139,7 +152,7 @@ def render_gestion_cliente(page: ft.Page, dni=None):
             _aviso(page, str(ex), ok=False)
 
     def _volver(e):
-        from src.home_personal import render_home_personal
+        from src.views.home_personal import render_home_personal
         ir_a(page, render_home_personal)
 
     _recargar_cuentas()
@@ -162,7 +175,7 @@ def render_gestion_cliente(page: ft.Page, dni=None):
 
 
 if __name__ == "__main__":
-    from src.sesion import Sesion
+    from src.controllers.sesion import Sesion
     Sesion.iniciar({
         "dni": "22233344",
         "rol": "personal",

@@ -5,10 +5,10 @@ import shutil
 from datetime import datetime
 from pathlib import Path
 
-from src.autenticacion import Autenticacion
-from src.cliente import Cliente
-from src.dao import DAO
-from src.empleado import Empleado
+from src.controllers.autenticacion import Autenticacion
+from src.models.cliente import Cliente
+from src.models.dao import DAO
+from src.models.empleado import Empleado
 
 
 def copiar_estado_original(ruta_bd: Path):

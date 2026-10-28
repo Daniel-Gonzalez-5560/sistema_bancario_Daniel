@@ -1,6 +1,6 @@
 import pytest
 from datetime import datetime
-from src.transaccion import Transaccion
+from src.models.transaccion import Transaccion
 
 
 # ==============================================================================
@@ -47,8 +47,8 @@ def test_representacion_cadena_formateada():
 
 def test_lanza_excepcion_tipo_transaccion_invalido():
     """Valida que el DAO rechace tipos de transacción no registrados en la BD."""
-    from src.dao import DAO
-    from src.cliente import Cliente
+    from src.models.dao import DAO
+    from src.models.cliente import Cliente
     from sqlalchemy.exc import IntegrityError
     
     dao = DAO(":memory:")

@@ -1,6 +1,6 @@
 from sqlalchemy import select, update
 
-from src.cliente import Cliente
+from src.models.cliente import Cliente
 from src.models import PersonaModel, TipoCuentaModel
 
 

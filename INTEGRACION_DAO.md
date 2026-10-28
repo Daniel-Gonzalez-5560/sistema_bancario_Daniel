@@ -34,7 +34,7 @@ dao.cerrar_conexion()
 ### Clientes
 
 ```python
-from src.cliente import Cliente
+from src.models.cliente import Cliente
 
 id_cliente = dao.guardar_cliente(Cliente("Lucia", "Gomez", "30123456", categoria="NORMAL", estado="ACTIVO"))
 cliente = dao.obtener_cliente_por_dni("30123456")
@@ -43,7 +43,7 @@ cliente = dao.obtener_cliente_por_dni("30123456")
 ### Empleados
 
 ```python
-from src.empleado import Empleado
+from src.models.empleado import Empleado
 
 id_empleado = dao.guardar_empleado(
     Persona("Pedro", "López", "28765432", "pass123"),
@@ -93,7 +93,7 @@ id_transaccion = dao.guardar_transaccion(id_cuenta, "pagoIntereses", 150.0)
 La clase `Autenticacion` combina la validación de credenciales con la resolución del rol y de los datos asociados a la persona. Se instancia con el mismo DAO que utiliza la aplicación:
 
 ```python
-from src.autenticacion import Autenticacion
+from src.controllers.autenticacion import Autenticacion
 
 autenticacion = Autenticacion(dao)
 sesion = autenticacion.autenticar("30123456", "miPassword123")

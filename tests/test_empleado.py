@@ -1,4 +1,4 @@
-from src.empleado import Empleado
+from src.models.empleado import Empleado
 
 
 def test_crear_empleado_valido():
