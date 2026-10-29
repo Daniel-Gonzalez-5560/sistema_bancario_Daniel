@@ -10,6 +10,15 @@ from src.models.dao_personal import DAOPersonal
 from src.controllers.navegacion import ir_a
 from src.controllers.sesion import Sesion
 
+# Paleta compartida con el panel del personal.
+BG_FONDO = "#0c0b11"
+BG_TARJETA = "#121118"
+BG_CAMPO = "#181820"
+BORDE_NEON = "#9333ea"
+BORDE_NEON_BRIGHT = "#a855f7"
+COLOR_MUTED = "#7e7894"
+COLOR_BLANCO = "#ffffff"
+
 # Temporal: subclase del DAO con lo que el panel necesita hasta que
 # BE-07/08/09 se reescriban (ver src/dao_personal.py).
 _dao = DAOPersonal()
@@ -45,9 +54,13 @@ def _resolver_tipo(nombre_tipo):
 
 
 def render_gestion_cliente(page: ft.Page, dni=None):
-    """Crear/editar cliente con sus cuentas. Sin diseño: controles por defecto."""
+    """Crear o editar un cliente y gestionar sus cuentas."""
     page.title = "Capital Bank - Gestión cliente"
-    page.bgcolor = ft.Colors.WHITE
+    page.window_width = 980
+    page.window_height = 720
+    page.window_resizable = True
+    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+    page.bgcolor = BG_FONDO
     page.scroll = ft.ScrollMode.ADAPTIVE
 
     if not _es_personal():
@@ -108,16 +121,49 @@ def render_gestion_cliente(page: ft.Page, dni=None):
         options=[ft.dropdown.Option("Ahorro"), ft.dropdown.Option("Corriente")],
     )
 
+    campos = [txt_nombre, txt_apellido, txt_dni, txt_clave, txt_nro, txt_saldo]
+    for campo in campos:
+        campo.label_style = ft.TextStyle(color=COLOR_MUTED)
+        campo.hint_style = ft.TextStyle(color=COLOR_MUTED)
+        campo.text_style = ft.TextStyle(color=COLOR_BLANCO)
+        campo.bgcolor = BG_CAMPO
+        campo.border_color = BORDE_NEON
+        campo.focused_border_color = BORDE_NEON_BRIGHT
+        campo.border_radius = 10
+        campo.expand = True
+
+    dd_tipo.label_style = ft.TextStyle(color=COLOR_MUTED)
+    dd_tipo.text_style = ft.TextStyle(color=COLOR_BLANCO)
+    dd_tipo.bgcolor = BG_CAMPO
+    dd_tipo.border_color = BORDE_NEON
+    dd_tipo.focused_border_color = BORDE_NEON_BRIGHT
+    dd_tipo.border_radius = 10
+    dd_tipo.expand = True
+
     def _recargar_cuentas():
         col_cuentas.controls.clear()
         if id_cliente is None:
-            col_cuentas.controls.append(ft.Text("Guardá el cliente para agregar cuentas."))
+            col_cuentas.controls.append(
+                ft.Text("Guardá el cliente para agregar cuentas.", color=COLOR_MUTED)
+            )
             return
         cuentas = _dao.obtener_cuentas_por_cliente(id_cliente)
         if not cuentas:
-            col_cuentas.controls.append(ft.Text("Sin cuentas."))
+            col_cuentas.controls.append(ft.Text("Sin cuentas.", color=COLOR_MUTED))
         for id_cta, nro, _, id_tipo, saldo, tasa, _ in cuentas:
-            col_cuentas.controls.append(ft.Text(f"{nro} - saldo {saldo}"))
+            col_cuentas.controls.append(
+                ft.Container(
+                    padding=ft.Padding(14, 10, 14, 10),
+                    bgcolor=BG_CAMPO,
+                    border=ft.border.all(1, "#232130"),
+                    border_radius=10,
+                    content=ft.Text(
+                        f"{nro} - saldo {saldo}",
+                        color=COLOR_BLANCO,
+                        size=13,
+                    ),
+                )
+            )
 
     def _agregar_cuenta(e):
         try:
@@ -157,21 +203,109 @@ def render_gestion_cliente(page: ft.Page, dni=None):
 
     _recargar_cuentas()
 
-    page.add(ft.Column(controls=[
-        ft.Text("Nuevo cliente" if es_nuevo else f"Cliente {datos[1]} {datos[2]}"),
-        txt_nombre,
-        txt_apellido,
-        txt_dni,
-        txt_clave,
-        ft.ElevatedButton("Guardar cliente", on_click=_guardar_cliente),
-        ft.Text("Cuentas"),
-        col_cuentas,
-        txt_nro,
-        dd_tipo,
-        txt_saldo,
-        ft.ElevatedButton("Agregar cuenta", on_click=_agregar_cuenta),
-        ft.TextButton("Volver", on_click=_volver),
-    ]))
+    titulo = "Nuevo cliente" if es_nuevo else f"Cliente {datos[1]} {datos[2]}"
+    encabezado = ft.Row(
+        spacing=18,
+        vertical_alignment=ft.CrossAxisAlignment.CENTER,
+        controls=[
+            ft.Container(
+                width=48,
+                height=48,
+                border_radius=12,
+                border=ft.border.all(1.5, BORDE_NEON_BRIGHT),
+                alignment=ft.Alignment(0, 0),
+                content=ft.Icon(ft.Icons.PERSON_OUTLINE, color=BORDE_NEON_BRIGHT, size=24),
+            ),
+            ft.Column(
+                spacing=2,
+                controls=[
+                    ft.Text("VISTA PERSONAL", size=11, weight=ft.FontWeight.BOLD, color=BORDE_NEON_BRIGHT),
+                    ft.Text(titulo, size=28, weight=ft.FontWeight.BOLD, color=COLOR_BLANCO),
+                    ft.Text(
+                        "Registrá los datos y las cuentas del cliente",
+                        size=13,
+                        color=COLOR_MUTED,
+                    ),
+                ],
+            ),
+        ],
+    )
+
+    boton_guardar = ft.ElevatedButton(
+        content=ft.Text("Guardar cliente", color=COLOR_BLANCO, weight=ft.FontWeight.W_600),
+        on_click=_guardar_cliente,
+        bgcolor=BORDE_NEON,
+        style=ft.ButtonStyle(
+            shape=ft.RoundedRectangleBorder(radius=10),
+            padding=ft.Padding(20, 12, 20, 12),
+            shadow_color=BORDE_NEON_BRIGHT,
+            elevation=5,
+        ),
+    )
+    boton_agregar = ft.ElevatedButton(
+        content=ft.Text("Agregar cuenta", color=COLOR_BLANCO, weight=ft.FontWeight.W_600),
+        on_click=_agregar_cuenta,
+        bgcolor=BORDE_NEON,
+        style=ft.ButtonStyle(
+            shape=ft.RoundedRectangleBorder(radius=10),
+            padding=ft.Padding(20, 12, 20, 12),
+            shadow_color=BORDE_NEON_BRIGHT,
+            elevation=5,
+        ),
+    )
+
+    tarjeta_datos = ft.Container(
+        padding=24,
+        bgcolor=BG_TARJETA,
+        border_radius=18,
+        border=ft.border.all(1.5, BORDE_NEON),
+        shadow=ft.BoxShadow(blur_radius=18, color="#581c87", offset=ft.Offset(0, 0)),
+        content=ft.Column(
+            spacing=16,
+            controls=[
+                ft.Text("Datos personales", size=17, weight=ft.FontWeight.BOLD, color=COLOR_BLANCO),
+                ft.Row(controls=[txt_nombre, txt_apellido], spacing=16),
+                ft.Row(controls=[txt_dni, txt_clave], spacing=16),
+                boton_guardar,
+            ],
+        ),
+    )
+
+    tarjeta_cuentas = ft.Container(
+        padding=24,
+        bgcolor=BG_TARJETA,
+        border_radius=18,
+        border=ft.border.all(1.5, BORDE_NEON),
+        shadow=ft.BoxShadow(blur_radius=18, color="#581c87", offset=ft.Offset(0, 0)),
+        content=ft.Column(
+            spacing=16,
+            controls=[
+                ft.Text("Cuentas", size=17, weight=ft.FontWeight.BOLD, color=COLOR_BLANCO),
+                col_cuentas,
+                ft.Row(controls=[txt_nro, dd_tipo, txt_saldo], spacing=12),
+                boton_agregar,
+            ],
+        ),
+    )
+
+    page.add(
+        ft.Container(
+            padding=ft.Padding(36, 28, 36, 28),
+            expand=True,
+            content=ft.Column(
+                spacing=24,
+                controls=[
+                    encabezado,
+                    tarjeta_datos,
+                    tarjeta_cuentas,
+                    ft.TextButton(
+                        content=ft.Text("Volver a clientes", color=BORDE_NEON_BRIGHT),
+                        on_click=_volver,
+                    ),
+                ],
+            ),
+        )
+    )
 
 
 if __name__ == "__main__":
